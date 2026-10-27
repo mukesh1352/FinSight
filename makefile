@@ -4,14 +4,16 @@
 # Project configuration
 UV      := uv
 PYTHON  := 3.12
+HOOKS   := .githooks
 
 .PHONY: help install sync lock \
         lint lint-fix format format-check \
-        typecheck test test-cov check clean
+        typecheck test test-cov check \
+        hooks-install pre-commit clean
 
 help: ## Show available commands
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
-	awk 'BEGIN {FS = ":.*?## "}; {printf "  %-16s %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z_-]+:.*## .*$$' $(MAKEFILE_LIST) | \
+	awk 'BEGIN {FS = ":.*## "}; {printf "  %-16s %s\n", $$1, $$2}'
 
 install: ## Create the environment and install all dependencies
 	$(UV) python install $(PYTHON)
@@ -46,6 +48,14 @@ test-cov: ## Run tests with coverage reporting
 
 check: lint format-check typecheck test ## Run all code quality checks
 
+hooks-install: ## Install the native Git pre-commit hook
+	@chmod +x $(HOOKS)/pre-commit scripts/pre-commit-checks.sh
+	git config core.hooksPath $(HOOKS)
+	@echo "Native Git pre-commit hook installed."
+
+pre-commit: ## Run pre-commit checks manually
+	bash scripts/pre-commit-checks.sh
+
 clean: ## Remove generated Python caches and test artifacts
-	rm -rf .pytest_cache .ruff_cache .mypy_cache .coverage htmlcov
+	rm -rf .pytest_cache .ruff_cache .mypy_cache .ty_cache .coverage htmlcov
 	find . -type d -name __pycache__ -prune -exec rm -rf {} +

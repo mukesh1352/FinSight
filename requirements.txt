@@ -1,0 +1,32 @@
+
+# Data processing
+pandas>=2.2,<3.0
+numpy>=1.26,<3.0
+
+# Database connectivity
+SQLAlchemy>=2.0,<3.0
+psycopg[binary]>=3.2,<4.0
+
+# Configuration
+python-dotenv>=1.0,<2.0
+
+# Machine Learning
+scikit-learn>=1.5,<2.0
+joblib>=1.4,<2.0
+
+# API development
+fastapi>=0.115,<1.0
+uvicorn[standard]>=0.30,<1.0
+
+# Testing
+pytest>=8.4.2
+pytest-cov>=7.1.0
+
+# Code quality
+ruff>=0.17.3
+mypy>=1.10,<2.0
+ty>=0.0.92
+
+# SQL transformation and analytics
+dbt-core>=1.9,<2.0
+dbt-postgres>=1.9,<2.0
