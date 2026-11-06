@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
 set -Eeuo pipefail
+
 ROOT_DIR="$(git rev-parse --show-toplevel)"
-exec "$ROOT_DIR/scripts/pre-commit-checks.sh"
+cd "$ROOT_DIR"
+
+exec uv run pre-commit run --hook-stage pre-commit
